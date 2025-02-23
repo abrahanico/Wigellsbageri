@@ -15,5 +15,8 @@ public class DecorateOperaCakeCommand implements Command {
         cake.addDecoration("Lägg marsipanlocket på tårtan (rosa)");
         cake.addDecoration("Garnera med marsipanros");
         cake.addDecoration("Pudra över florsocker");
+
+        cake.showDecorations();
+
     }
 }

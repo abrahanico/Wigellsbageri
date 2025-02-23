@@ -14,5 +14,7 @@ public class DecorateChocolateCakeCommand implements Command {
         cake.addDecoration("Spackla tårtan med chokladsmörkräm");
         cake.addDecoration("Häll chokladganash på tårtan");
         cake.addDecoration("Garnera med hallon");
+
+        cake.showDecorations();
     }
 }
