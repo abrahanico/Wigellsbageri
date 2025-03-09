@@ -11,6 +11,10 @@ public class DecorateCakeCommand implements Command {
 
     @Override
     public void execute() {
-        cake.showDecorations();
+        System.out.println("Dekorerar " + cake.getName() + " (ID: " + cake.getId() + "):");
+        for (String step : cake.getDecorations()) {
+            System.out.println("* " + step);
+        }
+        System.out.println(cake.getName() + " är färdig!");
     }
 }

@@ -1,15 +1,17 @@
 import cake.Cake;
 import cake.CakeBuilder;
-import command.*;
+import command.Command;
+import command.DecorateCakeCommand;
 import observer.OrderNotifier;
-import java.util.ArrayList;
-import java.util.List;
 import utils.IDGenerator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Customer {
-    private String id;
-    private String name;
-    private List<String> orderHistory = new ArrayList<>();
+    private final String id;
+    private final String name;
+    private final List<String> orderHistory = new ArrayList<>();
 
     public Customer(String name) {
         this.id = IDGenerator.generateShortId();
@@ -19,28 +21,19 @@ public class Customer {
     public void placeOrder(String cakeType, OrderNotifier notifier) {
         notifier.notifyObservers(" Order lagd: " + cakeType + " av " + name + " (ID: " + id + ")");
 
-        Cake cake = new CakeBuilder(cakeType).build();
+
+        Cake cake = CakeBuilder.buildCake(cakeType);
+        cake.showSteps();
 
         notifier.notifyObservers(" Grunden till " + cake.getName() + " (ID: " + cake.getId() + ") är färdig!");
 
-        Command decorate;
-        switch (cakeType.toLowerCase()) {
-            case "prinsesstårta":
-                decorate = new DecoratePrincessCakeCommand(cake);
-                break;
-            case "operatårta":
-                decorate = new DecorateOperaCakeCommand(cake);
-                break;
-            case "chokladtårta":
-                decorate = new DecorateChocolateCakeCommand(cake);
-                break;
-            default:
-                throw new IllegalArgumentException("Okänd tårttyp: " + cakeType);
-        }
 
+        Command decorate = new DecorateCakeCommand(cake);
         decorate.execute();
 
-        notifier.notifyObservers("Tårtan " + cake.getName() + " (ID: " + cake.getId() + ") är färdig för leverans!");
+        notifier.notifyObservers(" Tårtan " + cake.getName() + " (ID: " + cake.getId() + ") är färdig för leverans!");
+
+
         orderHistory.add(cake.getName());
     }
 
@@ -55,6 +48,4 @@ public class Customer {
     public String getName() {
         return name;
     }
-
-
 }
